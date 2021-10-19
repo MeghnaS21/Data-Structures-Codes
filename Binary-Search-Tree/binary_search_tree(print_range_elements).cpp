@@ -19,7 +19,7 @@ class BinaryTrees{
 BinaryTrees<int>* takeInputLevelWise()
 {
     int rootData;
-    cout<<"Enter root data"<<endl;
+    //cout<<"Enter root data"<<endl;
     cin>>rootData;
 
     if(rootData==-1)
@@ -35,7 +35,7 @@ BinaryTrees<int>* takeInputLevelWise()
         BinaryTrees<int>* front = pendingNodes.front();
         pendingNodes.pop();
 
-        cout<<"Enter left child"<<front->data<<endl;
+        //cout<<"Enter left child"<<front->data<<endl;
         int leftCHildData;
         cin>>leftCHildData;
 
@@ -45,7 +45,7 @@ BinaryTrees<int>* takeInputLevelWise()
 
             pendingNodes.push(child);
         }
-        cout<<"Enter right child"<<front->data<<endl;
+        //cout<<"Enter right child"<<front->data<<endl;
         int rightCHildData;
         cin>>rightCHildData;
 
@@ -59,17 +59,18 @@ BinaryTrees<int>* takeInputLevelWise()
     return root;
 }
 
-BinaryTrees<int>* search(BinaryTrees<int>* root, int s){
-    if(root == NULL)
-      return NULL;
-    
-    if(root->data == s) 
-      return root;
-    
-    if(root->data < s)
-      return search(root->right, s);
-    else
-      return  search(root->left, s);
+void range(BinaryTrees<int>* root, int min, int max)
+{
+    if(root==NULL)
+          return;
+         
+        if(root->data > min)
+          range(root->left, min, max);
+         
+        if(root->data >= min && root->data <= max)
+          cout<<root->data<<", ";
+        
+        range(root->right, min, max);
 }
 
 void PrintNode(BinaryTrees<int>* root){
@@ -98,7 +99,6 @@ void PrintNode(BinaryTrees<int>* root){
 int main(){
 
     BinaryTrees<int>* root = takeInputLevelWise();
-    PrintNode(root);
-    BinaryTrees<int>* node = search(root, 9);
-    cout<<node->data;
+    //PrintNode(root);
+    range(root, 2, 9);
 }

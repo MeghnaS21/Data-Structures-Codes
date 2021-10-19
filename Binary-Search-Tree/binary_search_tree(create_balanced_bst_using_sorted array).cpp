@@ -19,7 +19,7 @@ class BinaryTrees{
 BinaryTrees<int>* takeInputLevelWise()
 {
     int rootData;
-    cout<<"Enter root data"<<endl;
+    //cout<<"Enter root data"<<endl;
     cin>>rootData;
 
     if(rootData==-1)
@@ -35,7 +35,7 @@ BinaryTrees<int>* takeInputLevelWise()
         BinaryTrees<int>* front = pendingNodes.front();
         pendingNodes.pop();
 
-        cout<<"Enter left child"<<front->data<<endl;
+        //cout<<"Enter left child"<<front->data<<endl;
         int leftCHildData;
         cin>>leftCHildData;
 
@@ -45,7 +45,7 @@ BinaryTrees<int>* takeInputLevelWise()
 
             pendingNodes.push(child);
         }
-        cout<<"Enter right child"<<front->data<<endl;
+        //cout<<"Enter right child"<<front->data<<endl;
         int rightCHildData;
         cin>>rightCHildData;
 
@@ -59,17 +59,32 @@ BinaryTrees<int>* takeInputLevelWise()
     return root;
 }
 
-BinaryTrees<int>* search(BinaryTrees<int>* root, int s){
-    if(root == NULL)
+void range(BinaryTrees<int>* root, int min, int max)
+{
+    if(root==NULL)
+          return;
+         
+        if(root->data > min)
+          range(root->left, min, max);
+         
+        if(root->data >= min && root->data <= max)
+          cout<<root->data<<", ";
+        
+        range(root->right, min, max);
+}
+
+BinaryTrees<int>* BalancedBST(int arr[], int start, int end){
+    if(start>end)
       return NULL;
-    
-    if(root->data == s) 
-      return root;
-    
-    if(root->data < s)
-      return search(root->right, s);
-    else
-      return  search(root->left, s);
+
+    int mid = start +(end - start)/2;
+    BinaryTrees<int>* root = new BinaryTrees<int>(arr[mid]);
+
+    root->left= BalancedBST(arr, start, mid-1);
+    root->right = BalancedBST(arr, mid+1, end);
+
+    return root;
+
 }
 
 void PrintNode(BinaryTrees<int>* root){
@@ -96,9 +111,9 @@ void PrintNode(BinaryTrees<int>* root){
 
 
 int main(){
+    int arr[]={1,2,3,4,5,6,7};
 
-    BinaryTrees<int>* root = takeInputLevelWise();
+    BinaryTrees<int>* root = BalancedBST(arr, 0, 6);
     PrintNode(root);
-    BinaryTrees<int>* node = search(root, 9);
-    cout<<node->data;
+    //range(root, 2, 9);
 }
